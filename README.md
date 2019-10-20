@@ -2,7 +2,7 @@
 
 Low level http service for image recognition. Written in Rust with CUDA support.
 
-<img width="50%" height="50%" src="https://github.com/Bartoshko/hebbian_mirror/assets/mirror.jpeg" height="100%" width="100%"/>
+<img width="50%" height="50%" src="https://github.com/Bartoshko/hebbian_mirror/tree/master/assets/mirror.jpeg" height="100%" width="100%"/>
 
 ## Dependencies:
 
@@ -16,7 +16,7 @@ This software requires:
 
 - please if building for IoT use proper compilation settings or build on device.
 - this software do not use any layer of visualization to offer best possible performance and is created with performance in mind
-- For AWS lambda integration I am going to create .env file instruction that will allow to build project on the go and be used wit your AWS tools (but this is going to happened in near future)
+- For AWS lambda integration I am going to create .env file instruction that will allow to build project on the go and be used with your AWS tools (but this is going to happened in near future)
 
 ## Deep Learning assets:
 
