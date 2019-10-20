@@ -2,7 +2,7 @@
 
 Low level http service for image recognition. Written in Rust with CUDA support.
 
-<img width="50%" height="50%" src="https://github.com/Bartoshko/hebbian_mirror/tree/master/assets/mirror.jpeg" height="100%" width="100%"/>
+<img width="50%" height="50%" src="https://github.com/Bartoshko/hebbian_mirror/blob/master/assets/mirror.jpeg" height="100%" width="100%"/>
 
 ## Dependencies:
 
