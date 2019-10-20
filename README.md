@@ -15,7 +15,7 @@ This software requires:
 - and more (please see Cargo.toml)
 
 - please if building for IoT use proper compilation settings or build on device.
-- this software do not use any layer of visualization to offer best possible performance and is created with performance in mind
+- this software do not use any layer of virtualization to offer best possible performance
 - For AWS lambda integration I am going to create .env file instruction that will allow to build project on the go and be used with your AWS tools (but this is going to happened in near future)
 
 ## Deep Learning assets:
