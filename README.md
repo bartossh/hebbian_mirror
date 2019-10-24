@@ -20,13 +20,13 @@ This software requires:
 
 ## Deep Learning assets:
 
-- Download ```$ wget -c https://github.com/LaurentMazare/ocaml-torch/releases/download/v0.1-unstable/yolo-v3.ot ```
+- Download weights ```$ wget -c https://github.com/LaurentMazare/ocaml-torch/releases/download/v0.1-unstable/yolo-v3.ot ```
 
 ## Build for development:
 
 - ```$ RUST_ENV=info ROCKET_ENV=development cargo run```
 
-## Build for deployment
+## Build for production
 
 - ```$ RUST_ENV=error ROCKET_ENV=production cargo run```
 
