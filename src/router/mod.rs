@@ -24,6 +24,6 @@ pub fn tell_me_who(sender: State<Arc<Sender<Vec<u8>>>>) -> RouterResponse {
 #[post("/showmewho")]
 pub fn show_me_who(sender: State<Arc<Sender<Vec<u8>>>>) -> RouterResponse {
     RouterResponse::OkString(String::from(
-        "There a Vec<u8> stream of the picture with bboxes around recognized objects will be returned",
+        "There a Vec<u8> stream of the picture with bboxes around recognized objects will be returned, of curse You are beautiful",
     ))
 }
