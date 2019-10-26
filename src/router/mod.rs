@@ -1,5 +1,5 @@
 use crate::rocket::State;
-use crate::{Arc, Sender};
+use crate::{Arc, ImageRequest, RequestType, Sender};
 
 #[derive(Responder)]
 pub enum RouterResponse {
@@ -12,8 +12,11 @@ pub enum RouterResponse {
 }
 
 #[post("/tellmewho")]
-pub fn tell_me_who(sender: State<Arc<Sender<Vec<u8>>>>) -> RouterResponse {
-    if let Ok(s) = sender.send(vec![0, 1, 2, 3, 4, 5, 6]) {
+pub fn tell_me_who(sender: State<Arc<Sender<ImageRequest>>>) -> RouterResponse {
+    if let Ok(s) = sender.send(ImageRequest {
+        img: vec![0, 1, 2, 3, 4, 5, 6],
+        request: RequestType::RAW,
+    }) {
         println!("{:?}", &s);
     }
     RouterResponse::OkString(String::from(
@@ -22,7 +25,7 @@ pub fn tell_me_who(sender: State<Arc<Sender<Vec<u8>>>>) -> RouterResponse {
 }
 
 #[post("/showmewho")]
-pub fn show_me_who(sender: State<Arc<Sender<Vec<u8>>>>) -> RouterResponse {
+pub fn show_me_who(sender: State<Arc<Sender<ImageRequest>>>) -> RouterResponse {
     RouterResponse::OkString(String::from(
         "There a Vec<u8> stream of the picture with bboxes around recognized objects will be returned, of curse You are beautiful",
     ))

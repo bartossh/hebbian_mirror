@@ -14,8 +14,9 @@ mod neuro_net;
 mod router;
 mod settings;
 
-use crate::tch::nn::{FuncT, VarStore};
+use crate::tch::nn::VarStore;
 use crossbeam_channel::{unbounded, Receiver, Sender};
+use neuro_net::{ImageRequest, RequestType};
 use settings::{CONFIDENCE_THRESHOLD, CONFIG, NAMES, NMS_THRESHOLD, WEIGHTS};
 use std::collections::BTreeMap;
 use std::fs::File;
@@ -26,30 +27,32 @@ use std::thread;
 
 fn main() {
     env_logger::init();
-    let (sender, receiver): (Sender<Vec<u8>>, Receiver<Vec<u8>>) = unbounded();
-    let mut var_store = VarStore::new(tch::Device::Cpu);
-    if let Ok(darknet) = neuro_net::parse_config(&CONFIG.to_string()) {
-        let _net_width = darknet.width().expect("Cannot get darknet width");
-        let _net_height = darknet.height().expect("Cannot get darknet height");
-        if let Ok(_model) = darknet.build_model(&var_store.root()) {
-            if let Err(_) = var_store.load(&WEIGHTS.to_string()) {
+    let (sender_img, receiver_img): (Sender<ImageRequest>, Receiver<ImageRequest>) = unbounded();
+    let (sender_bboxed, receiver_bboxed): (Sender<Vec<u8>>, Receiver<Vec<u8>>) = unbounded();
+    thread::spawn(move || {
+        let mut var_store = VarStore::new(tch::Device::Cpu);
+        if let Ok(darknet) = neuro_net::parse_config(&CONFIG.to_string()) {
+            let _net_width = darknet.width().expect("Cannot get darknet width");
+            let _net_height = darknet.height().expect("Cannot get darknet height");
+            if let Ok(_model) = darknet.build_model(&var_store.root()) {
+                if let Err(_) = var_store.load(&WEIGHTS.to_string()) {
+                    stop_program();
+                };
+                loop {
+                    if let Ok(img) = receiver_img.recv() {
+                        println!("receiving {:?} ... {:?}", &_model, &img);
+                    }
+                }
+            } else {
                 stop_program();
             }
-            println!("model {:?}", &_model);
         } else {
             stop_program();
-        }
-    } else {
-        stop_program();
-    }
-    thread::spawn(move || loop {
-        if let Ok(img) = receiver.recv() {
-            println!("receiving {:?} ...", &img);
         }
     });
     println!("Starting server ....");
     rocket::ignite()
-        .manage(Arc::new(sender.clone()))
+        .manage(Arc::new(sender_img.clone()))
         .mount("/mirror", routes![router::tell_me_who, router::show_me_who])
         .launch();
 }

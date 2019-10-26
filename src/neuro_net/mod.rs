@@ -8,6 +8,18 @@ use crate::{BTreeMap, BufRead, BufReader, File, Path};
 use crate::{CONFIDENCE_THRESHOLD, NAMES, NMS_THRESHOLD};
 
 #[derive(Debug, Clone)]
+pub enum RequestType {
+    BBOX,
+    RAW,
+}
+
+#[derive(Debug, Clone)]
+pub struct ImageRequest {
+    pub img: Vec<u8>,
+    pub request: RequestType,
+}
+
+#[derive(Debug, Clone)]
 struct Block {
     block_type: String,
     parameters: BTreeMap<String, String>,
@@ -257,7 +269,7 @@ impl Darknet {
         Ok(image_width)
     }
 
-    pub fn build_model(&self, vs: &nn::Path) -> failure::Fallible<FuncT> {
+    pub fn build_model(&self, vs: &nn::Path) -> failure::Fallible<FuncT<'static>> {
         let mut blocks: Vec<(i64, Bl)> = vec![];
         let mut prev_channels: i64 = 3;
         for (index, block) in self.blocks.iter().enumerate() {
