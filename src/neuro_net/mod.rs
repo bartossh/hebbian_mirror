@@ -8,18 +8,6 @@ use crate::{BTreeMap, BufRead, BufReader, File, Path};
 use crate::{CONFIDENCE_THRESHOLD, NAMES, NMS_THRESHOLD};
 
 #[derive(Debug, Clone)]
-pub enum RequestType {
-    BBOX,
-    RAW,
-}
-
-#[derive(Debug, Clone)]
-pub struct ImageRequest {
-    pub img: Vec<u8>,
-    pub request: RequestType,
-}
-
-#[derive(Debug, Clone)]
 struct Block {
     block_type: String,
     parameters: BTreeMap<String, String>,
@@ -315,12 +303,12 @@ impl Darknet {
 
 #[derive(Debug, Clone, Copy)]
 pub struct Bbox {
-    xmin: f64,
-    ymin: f64,
-    xmax: f64,
-    ymax: f64,
-    confidence: f64,
-    class_confidence: f64,
+    pub xmin: f64,
+    pub ymin: f64,
+    pub xmax: f64,
+    pub ymax: f64,
+    pub confidence: f64,
+    pub class_confidence: f64,
 }
 
 // Intersection over union of two bounding boxes.
