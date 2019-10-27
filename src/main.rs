@@ -14,9 +14,8 @@ mod neuro_net;
 mod router;
 mod settings;
 
-use crate::tch::nn::VarStore;
 use crossbeam_channel::{unbounded, Receiver, Sender};
-use neuro_net::Bbox;
+use neuro_net::{report, Bbox};
 use router::{ImageRequest, RequestType};
 use settings::{CONFIDENCE_THRESHOLD, CONFIG, NAMES, NMS_THRESHOLD, WEIGHTS};
 use std::collections::BTreeMap;
@@ -25,6 +24,9 @@ use std::io::{BufRead, BufReader};
 use std::path::Path;
 use std::sync::Arc;
 use std::thread;
+use tch::nn::{ModuleT, VarStore};
+use tch::vision::image as image_helper;
+use tch::Tensor;
 
 fn main() {
     env_logger::init();
@@ -38,9 +40,9 @@ fn main() {
     thread::spawn(move || {
         let mut var_store = VarStore::new(tch::Device::Cpu);
         if let Ok(darknet) = neuro_net::parse_config(&CONFIG.to_string()) {
-            let _net_width = darknet.width().expect("Cannot get darknet width");
-            let _net_height = darknet.height().expect("Cannot get darknet height");
-            if let Ok(_model) = darknet.build_model(&var_store.root()) {
+            let net_width = darknet.width().expect("Cannot get darknet width");
+            let net_height = darknet.height().expect("Cannot get darknet height");
+            if let Ok(model) = darknet.build_model(&var_store.root()) {
                 if let Err(_) = var_store.load(&WEIGHTS.to_string()) {
                     stop_program();
                 };
@@ -50,16 +52,20 @@ fn main() {
                             RequestType::BBOXES => {
                                 println!(
                                     "receiving for calculating BBOXES {:?} ... {:?}",
-                                    &_model, &img_request
+                                    &model, &img_request
                                 );
-                                let bboxes = vec![vec![Bbox {
-                                    xmin: 1_f64,
-                                    ymin: 1_f64,
-                                    xmax: 1_f64,
-                                    ymax: 1_f64,
-                                    confidence: 1_f64,
-                                    class_confidence: 1_f64,
-                                }]];
+                                let tensor_image = Tensor::of_slice(&img_request.img);
+                                println!("DEBUG {:?}", tensor_image);
+                                let image =
+                                    image_helper::resize(&tensor_image, net_width, net_height)
+                                        .expect("Cannot resize image");
+                                println!("DEBUG {:?}", image);
+                                let image = image.unsqueeze(0).to_kind(tch::Kind::Float) / 255.;
+                                let predictions = model.forward_t(&image, false).squeeze();
+                                let bboxes =
+                                    report(&predictions, &tensor_image, net_width, net_height)
+                                        .expect("Cannot generate report");
+                                info!("\n{:?}\n", bboxes);
                                 if let Ok(_) = sender_plane_bboxed.send(bboxes) {
                                     println!("bboxes has been sent between threads");
                                 }
@@ -67,7 +73,7 @@ fn main() {
                             RequestType::IMAGE => {
                                 println!(
                                     "receiving for calculating IMAGES {:?} ... {:?}",
-                                    &_model, &img_request
+                                    &model, &img_request
                                 );
                             }
                         }

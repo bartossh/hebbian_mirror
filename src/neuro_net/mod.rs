@@ -443,3 +443,7 @@ pub fn draw_rect(t: &mut Tensor, x1: i64, x2: i64, y1: i64, y2: i64) {
         .narrow(1, y1, y2 - y1)
         .copy_(&color)
 }
+
+pub fn hwc_to_chw(tensor: &Tensor) -> Tensor {
+    tensor.permute(&[2, 0, 1])
+}

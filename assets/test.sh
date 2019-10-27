@@ -1,0 +1,1 @@
+curl -i -X POST -H "Content-Type: image/jpeg" -F "data=@test.jpeg" http://localhost:8000/mirror/tellmewho
