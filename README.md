@@ -28,11 +28,11 @@ This software requires:
 
 ## Build for development:
 
-- ```$ RUST_ENV=info ROCKET_ENV=development cargo run```
+- ```$ RUST_LOG=info ROCKET_ENV=development cargo run```
 
 ## Build for production
 
-- ```$ RUST_ENV=error ROCKET_ENV=production cargo run```
+- ```$ RUST_LOG=error ROCKET_ENV=production cargo run```
 
 or 
 
@@ -40,7 +40,7 @@ or
 then
 ```chmod +x ./target/release/hebbian_mirror```
 then
-```$ RUST_ENV=error ROCKET_ENV=production ./target/release/hebbian_mirror```
+```$ RUST_LOG=error ROCKET_ENV=production ./target/release/hebbian_mirror```
 
 ## Authors and Contributors:
 

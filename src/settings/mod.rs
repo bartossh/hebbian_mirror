@@ -3,9 +3,13 @@ pub const CONFIG: &'static str = "assets/yolo-v3.cfg";
 // Weights yolo file path
 pub const WEIGHTS: &'static str = "assets/yolo-v3.ot";
 // Confidence above which guess is taken to account
+// Path to temporary file that is used for setting torch Tensor
+pub const TEMPORARY_FILE_PATH: &'static str = "assets/temporary.jpg";
+// Confidence threshold is the probability above which We decide to treat recognition as valid
 pub const CONFIDENCE_THRESHOLD: f64 = 0.5;
+// Names threshold is the probability above which We decide to treat recognition type as valid
 pub const NMS_THRESHOLD: f64 = 0.4;
-
+// Names are objects than Neuro Network knows and can recognize
 pub const NAMES: [&'static str; 80] = [
     "person",
     "bicycle",

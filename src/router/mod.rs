@@ -1,5 +1,5 @@
 use crate::rocket::State;
-use crate::{Arc, Bbox, Receiver, Sender};
+use crate::{Arc, Bbox, Json, Receiver, Sender};
 
 #[derive(Debug, Clone)]
 pub enum RequestType {
@@ -13,6 +13,11 @@ pub struct ImageRequest {
     pub request: RequestType,
 }
 
+#[derive(Debug, Clone, Deserialize)]
+pub struct Base64Image {
+    image: String,
+}
+
 #[derive(Responder)]
 pub enum RouterResponse {
     #[response(status = 200, content_type = "application/json")]
@@ -23,22 +28,22 @@ pub enum RouterResponse {
     Error(String),
 }
 
-#[post("/tellmewho", format = "image/jpeg", data = "<image_buf>")]
+#[post("/tellmewho", format = "json", data = "<image_post>")]
 pub fn tell_me_who(
-    image_buf: Vec<u8>,
+    image_post: Json<Base64Image>,
     sender: State<Arc<Sender<ImageRequest>>>,
     receiver: State<Arc<Receiver<Vec<Vec<Bbox>>>>>,
 ) -> RouterResponse {
-    if let Ok(s) = sender.send(ImageRequest {
-        img: image_buf,
-        request: RequestType::BBOXES,
-    }) {
-        if let Ok(solution) = receiver.recv() {
-            println!("solution : {:?}", &solution);
-        }
-    }
+    println!("{:?}", image_post);
+    // TODO: here get image from base64 to vector or write down in to file
+    //let image_request = ImageRequest {img: image_buf, request: RequestType::BBOXES};
+    //if let Ok(s) = sender.send(image_request) {
+    //    if let Ok(solution) = receiver.recv() {
+    //        println!("solution : {:?}", &solution);
+    //    }
+    //}
     RouterResponse::OkString(String::from(
-        "You are the most beautiful on the whole world...",
+        "Prosopagnosia is being a pro in so called agnosticism",
     ))
 }
 
@@ -55,6 +60,6 @@ pub fn show_me_who(
         println!("Data has been sent:{:?}", &s);
     }
     RouterResponse::OkString(String::from(
-        "There a Vec<u8> stream of the picture with bboxes around recognized objects will be returned, of curse You are beautiful",
+        "Prosopagnosia is being a pro in so called agnosticism",
     ))
 }

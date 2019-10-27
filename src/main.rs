@@ -3,6 +3,10 @@
 #[macro_use]
 extern crate rocket;
 #[macro_use]
+extern crate rocket_contrib;
+#[macro_use] 
+extern crate serde_derive;
+#[macro_use]
 extern crate log;
 extern crate env_logger;
 #[macro_use]
@@ -10,23 +14,27 @@ extern crate failure;
 extern crate crossbeam_channel;
 extern crate tch;
 
+mod helpers;
 mod neuro_net;
 mod router;
 mod settings;
 
+use rocket_contrib::json::Json;
 use crossbeam_channel::{unbounded, Receiver, Sender};
+use helpers::{delete_file, save_file};
 use neuro_net::{report, Bbox};
 use router::{ImageRequest, RequestType};
-use settings::{CONFIDENCE_THRESHOLD, CONFIG, NAMES, NMS_THRESHOLD, WEIGHTS};
+use settings::{CONFIDENCE_THRESHOLD, CONFIG, NAMES, NMS_THRESHOLD, TEMPORARY_FILE_PATH, WEIGHTS};
 use std::collections::BTreeMap;
+use std::fs::remove_file;
 use std::fs::File;
+use std::io::prelude::Write;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
 use std::sync::Arc;
 use std::thread;
 use tch::nn::{ModuleT, VarStore};
 use tch::vision::image as image_helper;
-use tch::Tensor;
 
 fn main() {
     env_logger::init();
@@ -48,34 +56,51 @@ fn main() {
                 };
                 loop {
                     if let Ok(img_request) = receiver_img.recv() {
-                        match img_request.request {
-                            RequestType::BBOXES => {
-                                println!(
-                                    "receiving for calculating BBOXES {:?} ... {:?}",
-                                    &model, &img_request
-                                );
-                                let tensor_image = Tensor::of_slice(&img_request.img);
-                                println!("DEBUG {:?}", tensor_image);
-                                let image =
-                                    image_helper::resize(&tensor_image, net_width, net_height)
-                                        .expect("Cannot resize image");
-                                println!("DEBUG {:?}", image);
-                                let image = image.unsqueeze(0).to_kind(tch::Kind::Float) / 255.;
-                                let predictions = model.forward_t(&image, false).squeeze();
-                                let bboxes =
-                                    report(&predictions, &tensor_image, net_width, net_height)
-                                        .expect("Cannot generate report");
-                                info!("\n{:?}\n", bboxes);
-                                if let Ok(_) = sender_plane_bboxed.send(bboxes) {
-                                    println!("bboxes has been sent between threads");
+                        if let Ok(_) = save_file(&img_request.img, &TEMPORARY_FILE_PATH.to_string())
+                        {
+                            println!("saving: oki");
+                            match img_request.request {
+                                RequestType::BBOXES => {
+                                    println!(
+                                        "receiving for calculating BBOXES {:?} ... {:?}",
+                                        &model,
+                                        &img_request.img.len()
+                                    );
+
+                                    let original_image =
+                                        image_helper::load(&TEMPORARY_FILE_PATH.to_string())
+                                            .expect("Cannot load image from file");
+                                    let image = image_helper::resize(
+                                        &original_image,
+                                        net_width,
+                                        net_height,
+                                    )
+                                    .expect("Cannot resize image");
+                                    let image = image.unsqueeze(0).to_kind(tch::Kind::Float) / 255.;
+                                    let predictions = model.forward_t(&image, false).squeeze();
+                                    let bboxes = report(
+                                        &predictions,
+                                        &original_image,
+                                        net_width,
+                                        net_height,
+                                    )
+                                    .expect("Cannot generate report");
+                                    if let Ok(_) = sender_plane_bboxed.send(bboxes) {
+                                        println!("bboxes has been sent between threads");
+                                    }
+                                }
+                                RequestType::IMAGE => {
+                                    println!(
+                                        "receiving for calculating IMAGES {:?} ... {:?}",
+                                        &model, &img_request
+                                    );
                                 }
                             }
-                            RequestType::IMAGE => {
-                                println!(
-                                    "receiving for calculating IMAGES {:?} ... {:?}",
-                                    &model, &img_request
-                                );
+                            if let Err(_) = delete_file(&TEMPORARY_FILE_PATH.to_string()) {
+                                panic!("It is not possible to delete saved temporary file, something went terribly wrong.");
                             }
+                        } else {
+                            panic!("It is not possible to save temporary file, something went terribly wrong.");
                         }
                     }
                 }

@@ -19,3 +19,6 @@ Cargo.lock
 
 #Large files of neuron-networks weights
 /assets/*.ot
+
+# vim backuped files
+*.swp
