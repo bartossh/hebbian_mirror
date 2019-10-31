@@ -4,13 +4,14 @@
 extern crate rocket;
 #[macro_use]
 extern crate rocket_contrib;
-#[macro_use] 
+#[macro_use]
 extern crate serde_derive;
 #[macro_use]
 extern crate log;
 extern crate env_logger;
 #[macro_use]
 extern crate failure;
+extern crate base64;
 extern crate crossbeam_channel;
 extern crate tch;
 
@@ -19,11 +20,12 @@ mod neuro_net;
 mod router;
 mod settings;
 
-use rocket_contrib::json::Json;
+use base64::decode;
 use crossbeam_channel::{unbounded, Receiver, Sender};
 use helpers::{delete_file, save_file};
 use neuro_net::{report, Bbox};
-use router::{ImageRequest, RequestType};
+use rocket_contrib::json::Json;
+use router::{ImageRequestVectorized, RequestType};
 use settings::{CONFIDENCE_THRESHOLD, CONFIG, NAMES, NMS_THRESHOLD, TEMPORARY_FILE_PATH, WEIGHTS};
 use std::collections::BTreeMap;
 use std::fs::remove_file;
@@ -38,7 +40,10 @@ use tch::vision::image as image_helper;
 
 fn main() {
     env_logger::init();
-    let (sender_img, receiver_img): (Sender<ImageRequest>, Receiver<ImageRequest>) = unbounded();
+    let (sender_img, receiver_img): (
+        Sender<ImageRequestVectorized>,
+        Receiver<ImageRequestVectorized>,
+    ) = unbounded();
     let (sender_plane_bboxed, receiver_plane_bboxed): (
         Sender<Vec<Vec<Bbox>>>,
         Receiver<Vec<Vec<Bbox>>>,
