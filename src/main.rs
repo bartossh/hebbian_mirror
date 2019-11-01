@@ -109,7 +109,10 @@ fn main() {
         .manage(Arc::new(sender_img.clone()))
         .manage(Arc::new(receiver_plane_bboxed.clone()))
         .manage(Arc::new(receiver_image_bboxed.clone()))
-        .mount("/mirror", routes![router::tell_me_who, router::show_me_who])
+        .mount(
+            "/mirror",
+            routes![router::tell_me_who, router::show_me_who, router::get_names],
+        )
         .launch();
 }
 

@@ -1,5 +1,5 @@
 use crate::rocket::State;
-use crate::{decode, Arc, Bbox, Json, Receiver, Sender};
+use crate::{decode, Arc, Bbox, Json, Receiver, Sender, NAMES};
 
 #[derive(Debug, Clone)]
 pub enum RequestType {
@@ -22,12 +22,23 @@ pub struct MirrorRequest {
 pub enum RouterResponse {
     #[response(status = 200, content_type = "application/json")]
     OkString(Json<Vec<Vec<Bbox>>>),
+    #[response(status = 200, content_type = "application/json")]
+    OkNames(Json<Vec<String>>),
     #[response(status = 200, content_type = "binary")]
     OkBinary(Vec<u8>),
     #[response(status = 400)]
     NotFound(String),
     #[response(status = 500, content_type = "plain")]
     Error(String),
+}
+
+#[get("/names", format = "json")]
+pub fn get_names() -> RouterResponse {
+    let mut names = Vec::new();
+    NAMES.iter().for_each(|name| {
+        names.push(format!("{}", name));
+    });
+    RouterResponse::OkNames(Json(names))
 }
 
 #[post("/tellmewho", format = "json", data = "<data>")]
@@ -46,7 +57,7 @@ pub fn tell_me_who(
             img: bytes,
             request: RequestType::BBOXES,
         };
-        if let Ok(s) = sender.send(img_vectorized) {
+        if let Ok(_) = sender.send(img_vectorized) {
             if let Ok(solution) = receiver.recv() {
                 return RouterResponse::OkString(Json(solution));
             }
