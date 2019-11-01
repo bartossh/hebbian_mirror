@@ -2,7 +2,6 @@
 
 #[macro_use]
 extern crate rocket;
-#[macro_use]
 extern crate rocket_contrib;
 #[macro_use]
 extern crate serde_derive;
@@ -48,8 +47,10 @@ fn main() {
         Sender<Vec<Vec<Bbox>>>,
         Receiver<Vec<Vec<Bbox>>>,
     ) = unbounded();
-    let (sender_img_bboxed, receiver_image_bboxed): (Sender<Arc<Vec<u8>>>, Receiver<Arc<Vec<u8>>>) =
-        unbounded();
+    let (_sender_img_bboxed, receiver_image_bboxed): (
+        Sender<Arc<Vec<u8>>>,
+        Receiver<Arc<Vec<u8>>>,
+    ) = unbounded();
     thread::spawn(move || {
         let mut var_store = VarStore::new(tch::Device::Cpu);
         if let Ok(darknet) = neuro_net::parse_config(&CONFIG.to_string()) {
@@ -63,44 +64,31 @@ fn main() {
                     if let Ok(img_request) = receiver_img.recv() {
                         if let Ok(_) = save_file(&img_request.img, &TEMPORARY_FILE_PATH.to_string())
                         {
-                            println!("saving: oki");
+                            info!("Buffer temporally saved with success.");
+                            info!(
+                                "Moving image buffer of length {:?} between threads",
+                                &img_request.img.len()
+                            );
+
+                            let original_image =
+                                image_helper::load(&TEMPORARY_FILE_PATH.to_string())
+                                    .expect("Cannot load image from file");
+                            let image =
+                                image_helper::resize(&original_image, net_width, net_height)
+                                    .expect("Cannot resize image");
+                            let image = image.unsqueeze(0).to_kind(tch::Kind::Float) / 255.;
+                            let predictions = model.forward_t(&image, false).squeeze();
+                            let bboxes =
+                                report(&predictions, &original_image, net_width, net_height)
+                                    .expect("Cannot generate report");
                             match img_request.request {
                                 RequestType::BBOXES => {
-                                    println!(
-                                        "receiving for calculating BBOXES {:?} ... {:?}",
-                                        &model,
-                                        &img_request.img.len()
-                                    );
-
-                                    let original_image =
-                                        image_helper::load(&TEMPORARY_FILE_PATH.to_string())
-                                            .expect("Cannot load image from file");
-                                    let image = image_helper::resize(
-                                        &original_image,
-                                        net_width,
-                                        net_height,
-                                    )
-                                    .expect("Cannot resize image");
-                                    let image = image.unsqueeze(0).to_kind(tch::Kind::Float) / 255.;
-                                    let predictions = model.forward_t(&image, false).squeeze();
-                                    let bboxes = report(
-                                        &predictions,
-                                        &original_image,
-                                        net_width,
-                                        net_height,
-                                    )
-                                    .expect("Cannot generate report");
-                                    if let Ok(_) = sender_plane_bboxed.send(bboxes) {
-                                        println!("bboxes has been sent between threads");
+                                    if let Err(_) = sender_plane_bboxed.send(bboxes) {
+                                        error!("Cannot send solution between threads.");
                                     }
                                 }
-                                RequestType::IMAGE => {
-                                    println!(
-                                        "receiving for calculating IMAGES {:?} ... {:?}",
-                                        &model, &img_request
-                                    );
-                                }
-                            }
+                                RequestType::IMAGE => {}
+                            };
                             if let Err(_) = delete_file(&TEMPORARY_FILE_PATH.to_string()) {
                                 panic!("It is not possible to delete saved temporary file, something went terribly wrong.");
                             }

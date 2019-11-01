@@ -301,7 +301,7 @@ impl Darknet {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Serialize)]
 pub struct Bbox {
     pub xmin: f64,
     pub ymin: f64,
