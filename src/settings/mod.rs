@@ -1,3 +1,5 @@
+// If GPU with CUDA set to true
+pub const IS_CUDA: bool = false;
 // Config yolo file path
 pub const CONFIG: &'static str = "assets/yolo-v3.cfg";
 // Weights yolo file path

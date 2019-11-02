@@ -75,6 +75,13 @@ impl Accumulator {
     }
 }
 
+/// Contracts instance of Darknet Model
+///
+/// # Arguments:
+/// * path - reference to path where config variables are (yolo cfg file type)
+///
+/// # Returns success of new Darknet Model or failure otherwise
+///
 pub fn parse_config<T: AsRef<Path>>(path: T) -> failure::Fallible<Darknet> {
     let file = File::open(path.as_ref())?;
     let mut acc = Accumulator::new();
@@ -211,16 +218,7 @@ where
     slice.copy_(&src)
 }
 
-/// Darknet width
-///
-/// # Arguments:
-/// * xs - tensorized image for object detection
-/// * image_height - height of the image
-/// * classes - Yolo classes
-/// * classes - reference to Yolo anchors
-///
-/// # Returns new Tensor with detections
-///
+///Returns new Tensor with detections
 fn detect(xs: &Tensor, image_height: i64, classes: i64, anchors: &Vec<(i64, i64)>) -> Tensor {
     let (bsize, _channels, height, _width) = xs.size4().unwrap();
     let stride = image_height / height;
@@ -275,13 +273,13 @@ impl Darknet {
         Ok(image_width)
     }
 
-    /// Constructs Darknet model
+    /// Builds Darknet Function
     ///
     /// # Argument
     ///
-    /// * vs - variables storage path to build model from
+    /// * vs - function variables storage path
     ///
-    /// # Returns success of Darknet model as static function or failure otherwise
+    /// # Returns success of Darknet static function or failure otherwise (will live for entire program lifetime)
     ///
     pub fn build_model(&self, vs: &nn::Path) -> failure::Fallible<FuncT<'static>> {
         let mut blocks: Vec<(i64, Bl)> = vec![];
@@ -337,16 +335,6 @@ pub struct Bbox {
     pub class_confidence: f64,
 }
 
-/// Intersection over union of two bounding boxes.
-///
-/// # Argument
-///
-/// * b1 - Bbox prediction to check intersection with
-/// * b2 - Bbox prediction to check intersection with
-///
-/// # Returns intersection over union of two bounding boxes.
-///
-//
 fn iou(b1: &Bbox, b2: &Bbox) -> f64 {
     let b1_area = (b1.xmax - b1.xmin + 1.) * (b1.ymax - b1.ymin + 1.);
     let b2_area = (b2.xmax - b2.xmin + 1.) * (b2.ymax - b2.ymin + 1.);

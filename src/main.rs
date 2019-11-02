@@ -25,7 +25,9 @@ use helpers::{delete_file, save_file};
 use neuro_net::{draw_results, report, Bbox};
 use rocket_contrib::json::Json;
 use router::{ImageRequestVectorized, RequestType};
-use settings::{CONFIDENCE_THRESHOLD, CONFIG, NAMES, NMS_THRESHOLD, TEMPORARY_FILE_PATH, WEIGHTS};
+use settings::{
+    CONFIDENCE_THRESHOLD, CONFIG, IS_CUDA, NAMES, NMS_THRESHOLD, TEMPORARY_FILE_PATH, WEIGHTS,
+};
 use std::collections::BTreeMap;
 use std::fs::remove_file;
 use std::fs::File;
@@ -51,7 +53,10 @@ fn main() {
     let (sender_imgage_bboxed, receiver_image_bboxed): (Sender<Vec<u8>>, Receiver<Vec<u8>>) =
         unbounded();
     thread::spawn(move || {
-        let mut var_store = VarStore::new(tch::Device::Cpu);
+        let mut var_store: VarStore = VarStore::new(tch::Device::Cpu);
+        if IS_CUDA {
+            var_store = VarStore::new(tch::Device::Cuda(16));
+        }
         if let Ok(darknet) = neuro_net::parse_config(&CONFIG.to_string()) {
             let net_width = darknet.width().expect("Cannot get darknet width");
             let net_height = darknet.height().expect("Cannot get darknet height");

@@ -21,6 +21,7 @@ This software requires:
 - please if building for IoT use proper compilation settings or build on device.
 - this software does not use any layer of virtualization to offer best possible performance
 - For AWS lambda integration I am going to create .env file instruction that will allow to build project on the go and be used with your AWS tools (but this is going to happened in near future)
+- please compile with `IS_CUDA = false` first, check if your hardware is capable of CUDA
 
 ## Deep Learning assets:
 
