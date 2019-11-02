@@ -211,6 +211,16 @@ where
     slice.copy_(&src)
 }
 
+/// Darknet width
+///
+/// # Arguments:
+/// * xs - tensorized image for object detection
+/// * image_height - height of the image
+/// * classes - Yolo classes
+/// * classes - reference to Yolo anchors
+///
+/// # Returns new Tensor with detections
+///
 fn detect(xs: &Tensor, image_height: i64, classes: i64, anchors: &Vec<(i64, i64)>) -> Tensor {
     let (bsize, _channels, height, _width) = xs.size4().unwrap();
     let stride = image_height / height;
@@ -247,16 +257,32 @@ fn detect(xs: &Tensor, image_height: i64, classes: i64, anchors: &Vec<(i64, i64)
 }
 
 impl Darknet {
+    /// Darknet hight
+    ///
+    /// # Returns success of Darknet height or failure otherwise
+    ///
     pub fn height(&self) -> failure::Fallible<i64> {
         let image_height = self.get("height")?.parse::<i64>()?;
         Ok(image_height)
     }
 
+    /// Darknet width
+    ///
+    /// # Returns success of Darknet width or failure otherwise
+    ///
     pub fn width(&self) -> failure::Fallible<i64> {
         let image_width = self.get("width")?.parse::<i64>()?;
         Ok(image_width)
     }
 
+    /// Constructs Darknet model
+    ///
+    /// # Argument
+    ///
+    /// * vs - variables storage path to build model from
+    ///
+    /// # Returns success of Darknet model as static function or failure otherwise
+    ///
     pub fn build_model(&self, vs: &nn::Path) -> failure::Fallible<FuncT<'static>> {
         let mut blocks: Vec<(i64, Bl)> = vec![];
         let mut prev_channels: i64 = 3;
@@ -311,7 +337,16 @@ pub struct Bbox {
     pub class_confidence: f64,
 }
 
-// Intersection over union of two bounding boxes.
+/// Intersection over union of two bounding boxes.
+///
+/// # Argument
+///
+/// * b1 - Bbox prediction to check intersection with
+/// * b2 - Bbox prediction to check intersection with
+///
+/// # Returns intersection over union of two bounding boxes.
+///
+//
 fn iou(b1: &Bbox, b2: &Bbox) -> f64 {
     let b1_area = (b1.xmax - b1.xmin + 1.) * (b1.ymax - b1.ymin + 1.);
     let b2_area = (b2.xmax - b2.xmin + 1.) * (b2.ymax - b2.ymin + 1.);
@@ -323,6 +358,17 @@ fn iou(b1: &Bbox, b2: &Bbox) -> f64 {
     i_area / (b1_area + b2_area - i_area)
 }
 
+/// Constructs vector of vectors with all predictions in Bbox format
+///
+/// # Argument
+///
+/// * pred - reference to Tensor representing all predictions
+/// * img - reference to Tensor representing image that predictions refers to
+/// * w - image width
+/// * h - image height
+///
+/// # Returns success vector of vectors with Bbox prediction or failure otherwise
+///
 pub fn report(pred: &Tensor, img: &Tensor, w: i64, h: i64) -> failure::Fallible<Vec<Vec<Bbox>>> {
     let (npreds, pred_size) = pred.size2()?;
     let nclasses = (pred_size - 5) as usize;
@@ -397,12 +443,21 @@ pub fn report(pred: &Tensor, img: &Tensor, w: i64, h: i64) -> failure::Fallible<
     Ok(bboxes_scaled)
 }
 
+/// Applies all bboxes on the new created Tensor and Returns fallible Tensor
+///
+/// # Argument
+///
+/// * img - reference to Tensor representing image
+/// * bboxes - vector of vectors with Bbox prediction
+///
+/// # Returns success with new Tensor or failure otherwise
+///
 pub fn draw_results(img: &Tensor, bboxes: Vec<Vec<Bbox>>) -> failure::Fallible<Tensor> {
     let (_, initial_h, initial_w) = img.size3()?;
     let mut img = img.to_kind(tch::Kind::Float) / 255.;
     for (class_index, bboxes_for_class) in bboxes.iter().enumerate() {
         for b in bboxes_for_class.iter() {
-            println!("{}: {:?}", NAMES[class_index], b);
+            info!("{}: {:?}", NAMES[class_index], b);
             draw_rect(
                 &mut img,
                 b.xmin as i64,
@@ -436,7 +491,18 @@ pub fn draw_results(img: &Tensor, bboxes: Vec<Vec<Bbox>>) -> failure::Fallible<T
     Ok((img * 255.).to_kind(tch::Kind::Uint8))
 }
 
-// Assumes x1 <= x2 and y1 <= y2
+/// Mutates given image tensor applying rectangular box
+///
+/// # Argument
+///
+/// * t - Tensor representing image
+/// * x1 - left, top x coordinate
+/// * x2 - bottom, right x coordinate
+/// * y1 - left, top y coordinate
+/// * y2 - bottom, right y coordinate
+///
+/// Assumes x1 <= x2 and y1 <= y2
+///
 pub fn draw_rect(t: &mut Tensor, x1: i64, x2: i64, y1: i64, y2: i64) {
     let color = Tensor::of_slice(&[0., 0., 1.]).view([3, 1, 1]);
     t.narrow(2, x1, x2 - x1)
