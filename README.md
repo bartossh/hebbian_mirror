@@ -16,10 +16,11 @@ This software requires:
 - [Rocket](https://rocket.rs/)
 - [tch](https://docs.rs/tch/0.1.1/tch/)
 - [openssl](https://github.com/openssl/openssl)
+- [Docker](https://www.docker.com/)
 - and more (please see Cargo.toml)
 
 - please if building for IoT use proper compilation settings or build on device.
-- this software does not use any layer of virtualization to offer best possible performance
+- this software uses layer of virtualization only for development and QA process, which will effect running performance. Use docker 3.0 or greater,
 - For AWS lambda integration I am going to create .env file instruction that will allow to build project on the go and be used with your AWS tools (but this is going to happened in near future)
 - please compile with `IS_CUDA = false` first, check if your hardware is capable of CUDA
 
@@ -29,7 +30,8 @@ This software requires:
 
 ## Build for development:
 
-- ```$ RUST_LOG=info ROCKET_ENV=development cargo run```
+- cargo: ```$ RUST_LOG=info ROCKET_ENV=development cargo run```
+- docker: ```docker-compose up```
 
 ## Build for production
 

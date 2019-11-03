@@ -1,0 +1,17 @@
+version: '3.0'
+
+services:
+  bin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    command: cargo run
+    volumes:
+      - .:/usr/src/app
+      - registry:/root/.cargo/registry
+
+volumes:
+  registry:
+    driver: local
