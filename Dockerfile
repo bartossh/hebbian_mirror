@@ -9,6 +9,3 @@ WORKDIR /usr/src/app/assets
 RUN ./download.sh
 WORKDIR /usr/src/app
 EXPOSE 8000
-ENV RUST_LOG=info
-ENV ROCKET_ENV=development
-CMD ["cargo", "run"]

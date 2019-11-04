@@ -7,6 +7,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8000:8000
+    environment:
+      - RUST_LOG=info
+      - ROCKET_ENV=production
     command: cargo run
     volumes:
       - .:/usr/src/app

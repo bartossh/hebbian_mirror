@@ -1,4 +1,5 @@
-END=4
+END=100
+STARTTIME=$(date +%s)
 x=$END 
 while [ $x -gt 0 ]; 
 do 
@@ -11,3 +12,5 @@ do
   echo -e " \n"
   sleep .1
 done
+ENDTIME=$(date +%s)
+echo "It takes $(($ENDTIME - $STARTTIME)) seconds"
