@@ -2,7 +2,11 @@
 
 Low level http service for image recognition. Written in Rust with CUDA support.
 
-<img width="50%" height="50%" src="https://github.com/Bartoshko/hebbian_mirror/blob/master/assets/mirror.jpeg" height="100%" width="100%"/>
+<p align="center">
+    <img 
+    width="50%" height="50%" 
+    src="https://github.com/Bartoshko/hebbian_mirror/blob/master/assets/mirror.jpeg"/>
+</p>
 
 ## Dependencies:
 
@@ -12,23 +16,26 @@ This software requires:
 - [Rocket](https://rocket.rs/)
 - [tch](https://docs.rs/tch/0.1.1/tch/)
 - [openssl](https://github.com/openssl/openssl)
+- [Docker](https://www.docker.com/)
 - and more (please see Cargo.toml)
 
 - please if building for IoT use proper compilation settings or build on device.
-- this software does not use any layer of virtualization to offer best possible performance
+- this software uses layer of virtualization only for development and QA process, which will effect running performance. Use docker 3.0 or greater,
 - For AWS lambda integration I am going to create .env file instruction that will allow to build project on the go and be used with your AWS tools (but this is going to happened in near future)
+- please compile with `IS_CUDA = false` first, check if your hardware is capable of CUDA
 
 ## Deep Learning assets:
 
-- Download ```$ wget -c https://github.com/LaurentMazare/ocaml-torch/releases/download/v0.1-unstable/yolo-v3.ot ```
+- Download weights ```$ wget -c https://github.com/LaurentMazare/ocaml-torch/releases/download/v0.1-unstable/yolo-v3.ot ```
 
 ## Build for development:
 
-- ```$ RUST_ENV=info ROCKET_ENV=development cargo run```
+- cargo: ```$ RUST_LOG=info ROCKET_ENV=development cargo run```
+- docker: ```docker-compose up```
 
-## Build for deployment
+## Build for production
 
-- ```$ RUST_ENV=error ROCKET_ENV=production cargo run```
+- ```$ RUST_LOG=error ROCKET_ENV=production cargo run```
 
 or 
 
@@ -36,7 +43,7 @@ or
 then
 ```chmod +x ./target/release/hebbian_mirror```
 then
-```$ RUST_ENV=error ROCKET_ENV=production ./target/release/hebbian_mirror```
+```$ RUST_LOG=error ROCKET_ENV=production ./target/release/hebbian_mirror```
 
 ## Authors and Contributors:
 
