@@ -10,7 +10,6 @@ extern crate log;
 extern crate env_logger;
 #[macro_use]
 extern crate failure;
-extern crate base64;
 extern crate crossbeam_channel;
 extern crate tch;
 
@@ -20,7 +19,6 @@ mod recognition;
 mod router;
 mod settings;
 
-use base64::{decode, encode};
 use crossbeam_channel::{unbounded, Receiver, Sender};
 use helpers::{delete_file, save_file, stop_program};
 use neuro_net::{draw_results, report, Bbox};
@@ -69,6 +67,7 @@ fn main() {
         .mount(
             "/recognition/object",
             routes![
+                router::get,
                 router::get_names,
                 router::post_recognize_objects_boxes,
                 router::post_recognize_objects_images

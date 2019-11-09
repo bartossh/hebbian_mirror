@@ -441,7 +441,7 @@ pub fn report(pred: &Tensor, img: &Tensor, w: i64, h: i64) -> failure::Fallible<
 /// # Returns success with new Tensor or failure otherwise
 ///
 pub fn draw_results(img: &Tensor, bboxes: Vec<Vec<Bbox>>) -> failure::Fallible<Tensor> {
-    let (_, initial_h, initial_w) = img.size3()?;
+    let (_, _initial_h, _initial_w) = img.size3()?;
     let mut img = img.to_kind(tch::Kind::Float) / 255.;
     for (class_index, bboxes_for_class) in bboxes.iter().enumerate() {
         for b in bboxes_for_class.iter() {
