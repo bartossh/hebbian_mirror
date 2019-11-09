@@ -8,8 +8,8 @@ services:
     ports:
       - 8000:8000
     environment:
-      - RUST_LOG=error
-      - ROCKET_ENV=production
+      - RUST_LOG=info
+      - ROCKET_ENV=development
     command: cargo run
     volumes:
       - .:/usr/src/app

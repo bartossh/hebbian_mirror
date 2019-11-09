@@ -5,7 +5,7 @@ use crate::{
 };
 use crate::{CONFIG, CUDA_THREADS, IS_CUDA, TEMPORARY_FILE_PATH, WEIGHTS};
 
-/// Runs single thread listener that takes image recognition from unbounded pipe
+/// Runs single thread listener that takes image recognition request from unbounded pipe
 /// and based on request performs recognition then sends solution to one of two unbounded pipes
 /// Which pipes is chosen depends on request type.
 /// If RequestType matches BBOXES than sender_plane_bboxed pipe receives solution in Bbox format
@@ -13,7 +13,7 @@ use crate::{CONFIG, CUDA_THREADS, IS_CUDA, TEMPORARY_FILE_PATH, WEIGHTS};
 ///
 /// # Argument
 ///
-/// * receiver_img - receiver pipe, that function is listen on the end for receiving ImageRequestVectorized request
+/// * receiver_img - receiver pipe, to receive requests through
 /// * sender_plane_bboxed - pipe to send vectorized Bbox solution through
 /// * sender_imgage_bboxed - pipe to send binary buffer solution through
 ///
