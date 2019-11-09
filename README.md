@@ -48,7 +48,17 @@ then
 ## Authors and Contributors:
 
 - Lenart Bartosz
+- [Claire Amalfitano](https://github.com/polypodioides)
+- [Janusz Roll](https://github.com/janeek1995)
 
 ## License:
 
 - [MIT](https://opensource.org/licenses/MIT)
+
+## Rules (one rule only)
+
+- [Have a good reason for developing this service](https://www.youtube.com/watch?v=CZB7wlYbknM)
+
+## How AI (yolo.v3) works:
+
+Very good explanation from [Ayoosh Kathuria](https://towardsdatascience.com/yolo-v3-object-detection-53fb7d3bfe6b)

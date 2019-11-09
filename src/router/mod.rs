@@ -36,7 +36,7 @@ pub enum RouterResponse {
     Error(String),
 }
 
-#[get("/names", format = "json")]
+#[get("/boxes_names", format = "json")]
 pub fn get_names() -> RouterResponse {
     let mut names = Vec::new();
     NAMES.iter().for_each(|name| {
@@ -45,8 +45,8 @@ pub fn get_names() -> RouterResponse {
     RouterResponse::OkNames(Json(names))
 }
 
-#[post("/tellmewho", format = "json", data = "<data>")]
-pub fn tell_me_who(
+#[post("/boxes", format = "json", data = "<data>")]
+pub fn post_recognize_objects_boxes(
     data: Json<MirrorBase64Request>,
     sender: State<Arc<Sender<ImageRequestVectorized>>>,
     receiver: State<Arc<Receiver<Vec<Vec<Bbox>>>>>,
@@ -70,8 +70,8 @@ pub fn tell_me_who(
     RouterResponse::Error(format!("Error: Cannot handle operation."))
 }
 
-#[post("/showmewho", format = "json", data = "<data>")]
-pub fn show_me_who(
+#[post("/image", format = "json", data = "<data>")]
+pub fn post_recognize_objects_images(
     data: Json<MirrorBase64Request>,
     sender: State<Arc<Sender<ImageRequestVectorized>>>,
     receiver: State<Arc<Receiver<Vec<u8>>>>,

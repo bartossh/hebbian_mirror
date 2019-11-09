@@ -1,4 +1,4 @@
-END=100
+END=5
 STARTTIME=$(date +%s)
 x=$END 
 while [ $x -gt 0 ]; 
