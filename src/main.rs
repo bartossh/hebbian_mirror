@@ -24,7 +24,7 @@ use base64::{decode, encode};
 use crossbeam_channel::{unbounded, Receiver, Sender};
 use helpers::{delete_file, save_file, stop_program};
 use neuro_net::{draw_results, report, Bbox};
-use recognition::run_recognition_ai;
+use recognition::run_recognition_ai_listener;
 use rocket_contrib::json::Json;
 use router::{ImageRequestVectorized, RequestType};
 use settings::{
@@ -56,7 +56,7 @@ fn main() {
     let (sender_imgage_bboxed, receiver_image_bboxed): (Sender<Vec<u8>>, Receiver<Vec<u8>>) =
         unbounded();
     thread::spawn(move || {
-        run_recognition_ai(
+        run_recognition_ai_listener(
             receiver_img.clone(),
             sender_plane_bboxed.clone(),
             sender_imgage_bboxed.clone(),

@@ -61,4 +61,30 @@ then
 
 ## How AI (yolo.v3) works:
 
+#### YOLO v3 (you only look once) architecture
+
+<p align="center">
+    <img 
+    width="100%" height="100%" 
+    src="https://github.com/Bartoshko/hebbian_mirror/blob/master/assets/yolo_architecture.png"/>
+</p>
+
+#### Predictions map (boxes)
+
+<p align="center">
+    <img 
+    width="100%" height="100%" 
+    src="https://github.com/Bartoshko/hebbian_mirror/blob/master/assets/boxes.png"/>
+</p>
+
+#### Loss function calculation
+
+<p align="center">
+    <img 
+    width="100%" height="100%" 
+    src="https://github.com/Bartoshko/hebbian_mirror/blob/master/assets/loss_function_changes.png"/>
+</p>
+
+### Knowledge resources:
+
 Very good explanation from [Ayoosh Kathuria](https://towardsdatascience.com/yolo-v3-object-detection-53fb7d3bfe6b)
