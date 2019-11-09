@@ -6,8 +6,9 @@ use crate::{
 use crate::{CONFIG, CUDA_THREADS, IS_CUDA, TEMPORARY_FILE_PATH, WEIGHTS};
 
 /// Runs single thread listener that takes image recognition request from unbounded pipe
-/// and based on request performs recognition then sends solution to one of two unbounded pipes
-/// Which pipes is chosen depends on request type.
+/// and based on request type performs recognition, then sends solution to one of two unbounded pipes.
+/// Which one of two pipes is chosen depends on request type.
+///
 /// If RequestType matches BBOXES than sender_plane_bboxed pipe receives solution in Bbox format
 /// If RequestType matches IMAGE than sender_image_bboxed pipe receives solution in Vec<u8> format
 ///
