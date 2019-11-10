@@ -87,3 +87,11 @@ then
 ### Knowledge resources:
 
 Very good explanation from [Ayoosh Kathuria](https://towardsdatascience.com/yolo-v3-object-detection-53fb7d3bfe6b)
+
+### fininto 
+
+<p align="center">
+    <img 
+    width="100%" height="100%" 
+    src="https://github.com/Bartoshko/hebbian_mirror/blob/master/assets/sayit.jpg"/>
+</p>
