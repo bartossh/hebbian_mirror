@@ -38,11 +38,22 @@ This software requires:
 
 ## Build for production
 
-- - ```$ cargo build --release``` 
+- ```$ cargo build --release``` 
 then
 ```chmod +x ./target/release/hebbian_mirror```
 then
 ```$ RUST_LOG=error ROCKET_ENV=production ./target/release/hebbian_mirror```
+
+## Tests:
+
+There is possibility to test this software in two ways:
+    1. Run bash script:
+        - ```chmod +x assets/test.sh```,
+        then run test ```./assets/test.sh```
+    2. Python script:
+        - ```python3 -m venv venv```, then ```source venv/bin/activate```,
+        then ```pip install -r requirements.txt``` 
+        and run test ```python test.py```
 
 ## Authors and Contributors:
 
