@@ -1,0 +1,384 @@
+puppy
+frog, toad, toad frog, anuran, batrachian, salientian
+green lizard, Lacerta viridis
+barn spider, Araneus cavaticus
+garden spider, Aranea diademata
+ptarmigan
+echidna, spiny anteater, anteater
+platypus, duckbill, duckbilled platypus, duck-billed platypus, Ornithorhynchus anatinus
+bandicoot
+kangaroo
+pademelon, paddymelon
+phalanger, opossum, possum
+cuscus
+koala, koala bear, kangaroo bear, native bear, Phascolarctos cinereus
+wombat
+thylacine, Tasmanian wolf, Tasmanian tiger, Thylacinus cynocephalus
+numbat, banded anteater, anteater, Myrmecobius fasciatus
+livestock, stock, farm animal
+cow
+insectivore
+bowhead, bowhead whale, Greenland whale, Balaena mysticetus
+rorqual, razorback
+porpoise
+killer whale, killer, orca, grampus, sea wolf, Orcinus orca
+narwhal, narwal, narwhale, Monodon monoceros
+manatee, Trichechus manatus
+dugong, Dugong dugon
+carnivore
+aardvark, ant bear, anteater, Orycteropus afer
+cur, mongrel, mutt
+courser
+hound, hound dog
+basset, basset hound
+beagle
+bloodhound, sleuthhound
+bluetick
+coonhound
+dachshund, dachsie, badger dog
+foxhound
+redbone
+wolfhound
+greyhound
+whippet
+otterhound, otter hound
+Scottish deerhound, deerhound
+staghound
+terrier
+bullterrier, bull terrier
+wirehair, wirehaired terrier, wire-haired terrier
+Australian terrier
+schnauzer
+retriever
+vizsla, Hungarian pointer
+English setter
+spaniel
+clumber, clumber spaniel
+Sussex spaniel
+kuvasz
+schipperke
+groenendael
+malinois
+briard
+komondor
+collie
+pinscher
+mastiff
+bulldog, English bulldog
+Great Dane
+Saint Bernard, St Bernard
+basenji
+pug, pug-dog
+spitz
+keeshond
+corgi, Welsh corgi
+poodle, poodle dog
+dhole, Cuon alpinus
+aardwolf, Proteles cristata
+kit fox, Vulpes macrotis
+feline, felid
+mouser
+tabby, tabby cat
+Persian cat
+Egyptian cat
+cougar, puma, catamount, mountain lion, painter, panther, Felis concolor
+jaguarundi, jaguarundi cat, jaguarondi, eyra, Felis yagouaroundi
+serval, Felis serval
+margay, margay cat, Felis wiedi
+manul, Pallas's cat, Felis manul
+jaguar, panther, Panthera onca, Felis onca
+lion, king of beasts, Panthera leo
+liger
+tiglon, tigon
+cheetah, chetah, Acinonyx jubatus
+bear
+grizzly, grizzly bear, silvertip, silver-tip, Ursus horribilis, Ursus arctos horribilis
+binturong, bearcat, Arctictis bintourong
+fanaloka, Fossa fossa
+bat, chiropteran
+serotine, European brown bat, Eptesicus serotinus
+pipistrelle, pipistrel, Pipistrellus pipistrellus
+freetail, free-tailed bat, freetailed bat
+silverfish, Lepisma saccharina
+rabbit, coney, cony
+hare
+rodent, gnawer
+mouse
+rat
+hamster
+gerbil, gerbille
+lemming
+jerboa
+dormouse
+squirrel
+chickeree, Douglas squirrel, Tamiasciurus douglasi
+marmot
+groundhog, woodchuck, Marmota monax
+cavy
+agouti, Dasyprocta aguti
+coypu, nutria, Myocastor coypus
+viscacha, chinchillon, Lagostomus maximus
+abrocome, chinchilla rat, rat chinchilla
+ungulate, hoofed mammal
+hyrax, coney, cony, dassie, das
+horse, Equus caballus
+roan
+stablemate, stable companion
+male horse
+mare, female horse
+warhorse
+pony
+buckskin
+dun
+steeplechaser
+workhorse
+chestnut
+palomino
+pinto
+mule
+hinny
+zebra
+bovid
+bovine
+longhorn, Texas longhorn
+zebu
+cattalo, beefalo
+bison
+sheep
+ewe
+wether
+longwool
+merino, merino sheep
+argali, argal, Ovis ammon
+urial, Ovis vignei
+aoudad, arui, audad, Barbary sheep, maned sheep, Ammotragus lervia
+goat, caprine animal
+antelope
+blackbuck, black buck, Antilope cervicapra
+gerenuk, Litocranius walleri
+addax, Addax nasomaculatus
+gnu, wildebeest
+dik-dik
+hartebeest
+sassaby, topi, Damaliscus lunatus
+impala, Aepyceros melampus
+gazelle
+kudu, koodoo, koudou
+bushbuck, guib, Tragelaphus scriptus
+nilgai, nylghai, nylghau, blue bull, Boselaphus tragocamelus
+saiga, Saiga tatarica
+steenbok, steinbok, Raphicerus campestris
+eland
+kob, Kobus kob
+lechwe, Kobus leche
+waterbuck
+puku, Adenota vardoni
+oryx, pasang
+gemsbok, gemsbuck, Oryx gazella
+pronghorn, prongbuck, pronghorn antelope, American antelope, Antilocapra americana
+deer, cervid
+hart, stag
+hind
+sambar, sambur, Cervus unicolor
+wapiti, elk, American elk, Cervus elaphus canadensis
+elk, European elk, moose, Alces alces
+caribou, reindeer, Greenland caribou, Rangifer tarandus
+muntjac, barking deer
+chevrotain, mouse deer
+giraffe, camelopard, Giraffa camelopardalis
+weasel
+stoat
+mink
+polecat, fitch, foulmart, foumart, Mustela putorius
+black-footed ferret, ferret, Mustela nigripes
+otter
+skunk, polecat, wood pussy
+badger
+ratel, honey badger, Mellivora capensis
+marten, marten cat
+tayra, taira, Eira barbara
+pachyderm
+pangolin, scaly anteater, anteater
+simian
+ape
+hominid
+orangutan, orang, orangutang, Pongo pygmaeus
+gorilla, Gorilla gorilla
+silverback
+chimpanzee, chimp, Pan troglodytes
+siamang, Hylobates syndactylus, Symphalangus syndactylus
+monkey
+guenon, guenon monkey
+grivet, Cercopithecus aethiops
+vervet, vervet monkey, Cercopithecus aethiops pygerythrus
+patas, hussar monkey, Erythrocebus patas
+baboon
+chacma, chacma baboon, Papio ursinus
+mandrill, Mandrillus sphinx
+macaque
+langur
+colobus, colobus monkey
+guereza, Colobus guereza
+tamarin, lion monkey, lion marmoset, leoncita
+prosimian
+lemur
+aye-aye, Daubentonia madagascariensis
+galago, bushbaby, bush baby
+indri, indris, Indri indri, Indri brevicaudatus
+tarsier
+raccoon, racoon
+bassarisk, cacomistle, cacomixle, coon cat, raccoon fox, ringtail, ring-tailed cat, civet cat, miner's cat, Bassariscus astutus
+kinkajou, honey bear, potto, Potos flavus, Potos caudivolvulus
+coati, coati-mondi, coati-mundi, coon cat, Nasua narica
+lesser panda, red panda, panda, bear cat, cat bear, Ailurus fulgens
+coho, cohoe, coho salmon, blue jack, silver salmon, Oncorhynchus kisutch
+backboard, basketball backboard
+bag
+ball
+basket, basketball hoop, hoop
+basketball
+bathtub, bathing tub, bath, tub
+bench
+blackboard, chalkboard
+bottle
+box
+bridge, span
+buckle
+building, edifice
+button
+cabinet
+chair
+comb
+cross
+cue, cue stick, pool cue, pool stick
+drawer
+drum, membranophone, tympan
+feather boa, boa
+Ferris wheel
+filter
+flag
+fork
+key
+keyboard
+lamp
+mallet
+marimba, xylophone
+police van, police wagon, paddy wagon, patrol wagon, wagon, black Maria
+pool table, billiard table, snooker table
+pot
+rack
+roller coaster, big dipper, chute-the-chute
+rule, ruler
+sail
+sheet, bed sheet
+ski
+sofa, couch, lounge
+squash racket, squash racquet, bat
+stick
+table
+toilet seat
+towel
+tower
+transporter, car transporter
+wheel
+window
+vegetarianism
+coloring, colouring, food coloring, food colouring, food color, food colour
+roughage, fiber
+adobo
+casserole
+goulash, Hungarian goulash, gulyas
+ragout
+pot-au-feu
+slumgullion
+flan
+mousse
+tiramisu
+ice lolly, lolly, lollipop, popsicle
+parfait
+pudding
+zabaglione, sabayon
+samosa
+saute
+margarine, margarin, oleo, oleomargarine, marge
+bannock
+chapatti, chapati
+pita, pocket bread
+limpa
+shortcake
+strawberry
+salad
+catsup, ketchup, cetchup, tomato ketchup
+chutney, Indian relish
+salsa
+curry
+pesto
+ravigote, ravigotte
+bordelaise
+demiglace, demi-glaze
+gravy
+veloute
+egg yolk, yolk
+omelet, omelette
+souffle
+bleu, blue cheese
+gorgonzola
+mozzarella
+ricotta
+miso
+hummus, humus, hommos, hoummos, humous
+pate
+honey
+sugar, refined sugar
+syrup, sirup
+pasta
+chili, chili con carne
+croquette
+fondue, fondu
+jambalaya
+kedgeree
+macedoine
+moussaka
+pizza, pizza pie
+porridge
+potpie
+sauerkraut
+succotash
+sukiyaki
+teriyaki
+terrine
+schnitzel, Wiener schnitzel
+burrito
+tostada
+vintage
+champagne, bubbly
+retsina
+vermouth
+generic, generic wine
+varietal, varietal wine
+grappa
+kirsch
+slivovitz
+absinth, absinthe
+anisette, anisette de Bordeaux
+kummel
+maraschino, maraschino liqueur
+sambuca
+bullshot
+daiquiri, rum cocktail
+martini
+screwdriver
+sidecar
+lemonade
+limeade
+orangeade
+souchong, soochong
+hyson
+ramekin, ramequin
+grassland
+plain, field, champaign
+daisy
+sunflower, helianthus
+grass
+acorn
+bonsai
