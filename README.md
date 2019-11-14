@@ -53,9 +53,9 @@ To set up your environment for Python and Pytorch please install required packag
 - Install python3-tk, f.e: on Ubuntu based Linux: ```sudo apt-get install python3-tk```
 - Set up virtual environment, f.e: on Ubuntu based Linux ```python3 -m venv venv```
 - Set virtual environment: ```source venv/bin/activate```
-- Install all python libraries: ```pip install ir requirements.txt```
+- Install all python libraries: ```pip install -r requirements.txt```
 - To get information how to run training / evaluating software run in terminal
-```python main.py -h``` do help message will guide You.
+```python main.py -h``` and help message will guide You.
 - Test example: ```python main.py -p deeplabv3_resnet101 assets/fishing.jpeg```
 
 ## Authors and Contributors:
