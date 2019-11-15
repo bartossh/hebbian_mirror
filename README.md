@@ -56,7 +56,7 @@ To set up your environment for Python and Pytorch please install required packag
 - Install all python libraries: ```pip install -r requirements.txt```
 - To get information how to run training / evaluating software run in terminal
 ```python main.py -h``` and help message will guide You.
-- Test example: ```python main.py -p deeplabv3_resnet101 assets/fishing.jpeg```
+- Test example: ```python main.py -p assets/fishing.jpeg```
 
 ## Authors and Contributors:
 

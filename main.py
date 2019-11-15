@@ -8,20 +8,6 @@ import urllib
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-avaliable_vision_models = [
-    'fcn_resnet50', 'fcn_resnet101',
-    'deeplabv3_resnet50', 'deeplabv3_resnet101'
-    ]
-
-
-def show_models():
-    """Prints available neuron networks to console
-    """
-    print('\n Available models names: \n')
-    for model in avaliable_vision_models:
-        print('- {}'.format(model))
-    print('\n' + ' - ' * 10 + '\n')
-
 
 def download_image(args):
     """Downloads image from given url
@@ -74,14 +60,11 @@ def detect(args):
     Returns:
         void
     """
-    model_name = args.pretrained[0]
-    img_path = args.pretrained[1]
+    img_path = args.pretrained[0]
     input_batch, input_image = load_tensor_and_image(img_path)
-    if model_name not in avaliable_vision_models:
-        raise Exception('Model not available')
     cnn_model = torch.hub.load(
         'pytorch/vision:v0.4.2',
-        model_name,
+        'fcn_resnet101',
         pretrained=True).eval()
     with torch.no_grad():
         output = cnn_model(input_batch)['out'][0]
@@ -97,35 +80,33 @@ def detect(args):
 
 
 if __name__ == '__main__':
-    show_models()
     parser = argparse.ArgumentParser(description='This module allows to tests \
-        different neuron-network modules')
-    parser.add_argument('-p', '--pretrained', type=str, nargs=2,
-                        metavar=('neron_network_type', 'image-path'),
-                        default=('fcn_resnet101', None),
-                        help='Specifies what pre-trained nn with weights \
-                        to provide')
-    parser.add_argument('-t', '--train', type=str, nargs=2,
-                        metavar=('neron_network_type', 'image-path'),
-                        default=('fcn_resnet101', None),
-                        help='Specifies what model of nn we wont to train \
-                        for weights')
-    parser.add_argument('-l', '--local', type=str, nargs=2,
-                        metavar=('neron_network_type', 'image-path'),
-                        default=('fcn_resnet101', None),
-                        help='Specifies what locally available and train model \
+        deeplabv3_resnet101 neuron-network module')
+    parser.add_argument('-p', '--pretrained', type=str, nargs=1,
+                        metavar=('image-path'),
+                        default=(None),
+                        help='Specifies what image to test against with \
+                        pretrained weights')
+    parser.add_argument('-t', '--train', type=str, nargs=1,
+                        metavar=('image-path'),
+                        default=(None),
+                        help='Specifies what image to test against with \
+                        after training weights')
+    parser.add_argument('-l', '--local', type=str, nargs=1,
+                        metavar=('image-path'),
+                        default=(None),
+                        help='Specifies what locally available and train \
                         model of nn we wont to use')
-    parser.add_argument('-d', '--download', type=str, nargs=2,
-                        metavar=('neron_network_type', 'image-path'),
-                        default=('fcn_resnet101', None),
-                        help='Specifies what locally available and train model \
-                        model of nn we wont to use')
+    parser.add_argument('-d', '--download', type=str, nargs=1,
+                        metavar=('url'),
+                        default=(None),
+                        help='Allows to download image from the given url')
     args = parser.parse_args()
-    if args.pretrained is not None and args.pretrained[1] is not None:
+    if args.pretrained is not None and args.pretrained[0] is not None:
         detect(args)
-    if args.train is not None and args.train[1] is not None:
+    if args.train is not None and args.train[0] is not None:
         train(args)
-    if args.local is not None and args.local[1] is not None:
+    if args.local is not None and args.local[0] is not None:
         print('Not Implemented')
-    if args.download is not None and args.download[1] is not None:
+    if args.download is not None and args.download[0] is not None:
         download_image(args.download)
