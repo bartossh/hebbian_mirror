@@ -1,6 +1,7 @@
 import urllib
 import torch
 from PIL import Image
+import matplotlib.pyplot as plt
 import torchvision.transforms as transforms
 
 
@@ -43,3 +44,27 @@ def load_tensor_and_image(image_path, device):
     input_tensor = preprocess(input_image)
     input_batch = input_tensor.unsqueeze(0)
     return input_batch.to(device, torch.float), input_image
+
+
+def draw_image_and_recogintion(input_image, output_predictions):
+    """Draws image alongside with recognition
+
+    Args:
+        input_image (numpy array): Vectorized image to numpy array
+        output_predictions (Tensor): AI model output predictions tensor
+
+    Returns:
+        void
+    """
+    palette = torch.tensor([2 ** 25 - 1, 2 ** 15 - 1, 2 ** 21 - 1])
+    colors = torch.as_tensor([i for i in range(21)])[:, None] * palette
+    colors = (colors % 255).numpy().astype("uint8")
+    r = Image.fromarray(output_predictions.byte().cpu()
+                        .numpy()).resize(input_image.size)
+    print(input_image.size)
+    r.putpalette(colors)
+    fig = plt.figure(figsize=(12, 6))
+    for i, img in enumerate([r, input_image]):
+        fig.add_subplot(1, 2, i + 1)
+        plt.imshow(img)
+    plt.show()

@@ -1,1 +1,1 @@
-from .image_utils import download_image, load_tensor_and_image
+from .image_utils import download_image, load_tensor_and_image, draw_image_and_recogintion

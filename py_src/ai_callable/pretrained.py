@@ -1,8 +1,39 @@
 import torch
 from PIL import Image
-import matplotlib.pyplot as plt
 from .. import load_tensor_and_image
-from ..params import COCO_INSTANCE_CATEGORY_NAMES
+from ..params import COCO_INSTANCE_CATEGORY_NAMES as COCO
+
+
+def find_boxes(output_predictions):
+    """Sets boxed boundaries for predicted parameters
+
+    Args:
+        output_predictions (Tensor): AI model output predictions tensor
+
+    Returns:
+        prediction_boxed (object) Object with keys of predicted object names
+        paired with boundary boxes of each prediction type
+    """
+    prediction_boxed = {}
+    for x, t in enumerate(output_predictions.byte().cpu()):
+        for y, v in enumerate(t):
+            value = v.item()
+            if value in prediction_boxed.keys():
+                if prediction_boxed[value]['x_min'] > x:
+                    prediction_boxed[value]['x_min'] = x
+                if prediction_boxed[value]['y_min'] > y:
+                    prediction_boxed[value]['y_min'] = y
+                if prediction_boxed[value]['x_max'] < x:
+                    prediction_boxed[value]['x_max'] = x
+                if prediction_boxed[value]['y_max'] < y:
+                    prediction_boxed[value]['y_max'] = y
+            else:
+                prediction_boxed[value] = {'x_min': x, 'y_min': y,
+                                              'x_max': x, 'y_max': y}
+    named = {}
+    for k in prediction_boxed.keys():
+        named[str(COCO[k])] = prediction_boxed[k]
+    return named
 
 
 def detect(args, device):
@@ -13,9 +44,9 @@ def detect(args, device):
         device (object): The pytorch device object
 
     Returns:
-        void
+        tuple (input_image, output_predictions) Tuple of vectorized image
+        to numpy array and AI model output predictions tensor
     """
-    predictions_per_name = {}
     img_path = args.pretrained[0]
     input_batch, input_image = load_tensor_and_image(img_path, device)
     cnn_model = torch.hub.load(
@@ -25,19 +56,4 @@ def detect(args, device):
     with torch.no_grad():
         output = cnn_model(input_batch)['out'][0]
     output_predictions = output.argmax(0)
-    for j, z in enumerate(output_predictions.byte().cpu().numpy()):
-        print('row {}'.format(j))
-        print('shape {}'.format(z.shape))
-        print('detected {}'.format(z.argmax(0)))
-    palette = torch.tensor([2 ** 25 - 1, 2 ** 15 - 1, 2 ** 21 - 1])
-    colors = torch.as_tensor([i for i in range(21)])[:, None] * palette
-    colors = (colors % 255).numpy().astype("uint8")
-    r = Image.fromarray(output_predictions.byte().cpu()
-                        .numpy()).resize(input_image.size)
-    print(input_image.size)
-    r.putpalette(colors)
-    fig = plt.figure(figsize=(10, 4))
-    for i, img in enumerate([r, input_image]):
-        fig.add_subplot(1, 2, i + 1)
-        plt.imshow(img)
-    plt.show()
+    return input_image, output_predictions
