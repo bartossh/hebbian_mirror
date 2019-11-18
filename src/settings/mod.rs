@@ -1,5 +1,7 @@
 // If GPU with CUDA set to true
 pub const IS_CUDA: bool = false;
+// If GPU with CUDA than set number of CUDA threads to
+pub const CUDA_THREADS: usize = 16;
 // Config yolo file path
 pub const CONFIG: &'static str = "assets/yolo-v3.cfg";
 // Weights yolo file path

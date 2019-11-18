@@ -32,3 +32,12 @@ pub fn delete_file(f_path: &String) -> Result<(), String> {
     };
     Err(format!("File cannot be deleted."))
 }
+
+/// When called stops the program and exits
+///
+pub fn stop_program() {
+    panic!(format!(
+        "Fatal error, darknet cannot be loaded, or some other dependencies are not satisfied, 
+        please look in to documentation to check if all steps has been taken."
+    ));
+}
