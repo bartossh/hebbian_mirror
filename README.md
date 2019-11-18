@@ -99,7 +99,7 @@ There is possibility to test this software in two ways:
 
 Very good explanation from [Ayoosh Kathuria](https://towardsdatascience.com/yolo-v3-object-detection-53fb7d3bfe6b)
 
-### fininto 
+### finito 
 
 <p align="center">
     <img 
