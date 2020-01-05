@@ -1,4 +1,4 @@
-FROM rust:1.37.0-stretch
+FROM rust:latest
 RUN rustup toolchain install nightly
 RUN rustup default nightly
 RUN mkdir -p /usr/src/app
