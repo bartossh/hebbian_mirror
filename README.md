@@ -26,6 +26,8 @@ This software requires:
 
 - Download weights ```$ wget -c https://github.com/LaurentMazare/ocaml-torch/releases/download/v0.1-unstable/yolo-v3.ot ```
 
+- use nightly: `rustup default nightly`
+
 ## Build for development:
 
 - cargo: ```$ RUST_LOG=info ROCKET_ENV=development cargo run```
