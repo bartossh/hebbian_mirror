@@ -24,7 +24,8 @@ This software requires:
 
 ## Deep Learning assets:
 
-- Download weights ```$ wget -c https://github.com/LaurentMazare/ocaml-torch/releases/download/v0.1-unstable/yolo-v3.ot ```
+- Download weights ```$ wget -c https://github.com/LaurentMazare/ocaml-torch/releases/download/v0.1-unstable/yolo-v3.ot``` to `assets` folder. 
+or run `assets/downloads.sh`
 
 - use nightly: `rustup default nightly`
 
@@ -47,15 +48,10 @@ then
 ```$ RUST_LOG=error ROCKET_ENV=production ./target/release/hebbian_mirror```
 
 ## Tests:
-
-There is possibility to test this software in two ways:
-    1. Run bash script:
-        - ```chmod +x assets/test.sh```,
-        then run test ```./assets/test.sh```
-    2. Python script:
-        - ```python3 -m venv venv```, then ```source venv/bin/activate```,
-        then ```pip install -r requirements.txt``` 
-        and run test ```python test.py```
+Python script:
+    - ```python3 -m venv venv```, then ```source venv/bin/activate```,
+    then ```pip install -r requirements.txt``` 
+    and run test ```python e2e_test.py```
 
 ## Authors and Contributors:
 
